@@ -1,6 +1,5 @@
 const express = require("express");
 const multer = require("multer");
-const Tesseract = require("tesseract.js");
 const { ImageAnnotatorClient } = require("@google-cloud/vision");
 const base64 = require("base-64");
 const _ = require("lodash");
