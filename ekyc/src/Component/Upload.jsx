@@ -51,6 +51,10 @@ const DragAndDropUpload = () => {
     try {
       const response = await axios.post("https://docuville.onrender.com/base", {
         image: base64String.split(",")[1],
+      },{
+        headers:{
+          AUTH_KEY:"kunal-key"
+        }
       });
       if (response.data.status) {
         setResponseData(response.data.data);

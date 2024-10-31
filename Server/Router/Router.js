@@ -1,13 +1,12 @@
 const express = require("express");
 const multer = require("multer");
 const { ImageAnnotatorClient } = require("@google-cloud/vision");
-const base64 = require("base-64");
 const _ = require("lodash");
 const fs = require("fs");
 const similarity = require("string-similarity-js");
 const stringSimilarity = similarity.stringSimilarity;
 require("dotenv").config();
-const nlp = require('compromise');
+const nlp = require("compromise");
 
 // Decode credentials from environment variables
 const GCP_CLIENT_EMAIL = process.env.GCP_CLIENT_EMAIL;
@@ -312,6 +311,14 @@ const monthMapping = {
 
 router.post("/", upload.single("image"), async (req, res) => {
   try {
+    if (req.headers.auth_key !== process.env.AUTH_KEY) {
+      res.send({
+        status: false,
+        data: {},
+        message: "You are not Authorised. Please add Auth-Key",
+      });
+      return;
+    }
     if (!req.file) {
       return res.status(400).send({ error: "No file uploaded" });
     }
@@ -321,12 +328,24 @@ router.post("/", upload.single("image"), async (req, res) => {
     res.send(result);
   } catch (error) {
     console.error("Error:", error);
-    res.send({ error: error.message });
+    res.send({
+      status: false,
+      data: {},
+      message: error.message,
+    });
   }
 });
 
 router.post("/base", async (req, res) => {
   try {
+    if (req.headers.auth_key !== process.env.AUTH_KEY) {
+      res.send({
+        status: false,
+        data: {},
+        message: "You are not Authorised. Please add Auth-Key",
+      });
+      return;
+    }
     if (!req.body) {
       return res.status(400).send({ error: "No file uploaded" });
     }
@@ -334,7 +353,11 @@ router.post("/base", async (req, res) => {
     res.send(result);
   } catch (error) {
     console.error("Error:", error);
-    res.send({ error: error.message });
+    res.send({
+      status: false,
+      data: {},
+      message: error.message,
+    });
   }
 });
 
@@ -606,14 +629,14 @@ function getBackSideData(textResultArray) {
       ) {
         dataBool.fatherNameBool = false;
         backSideDetails.fatherName = removeUnwantedStringAtEitherEnds(
-          detectNames(textResultArray[i + 1],textResultArray[i + 2])
+          detectNames(textResultArray[i + 1], textResultArray[i + 2])
         );
         i++;
       }
       if (motherNameBool && textResultArray[i].search(RegexExp.mother) !== -1) {
         dataBool.motherNameBool = false;
         backSideDetails.motherName = removeUnwantedStringAtEitherEnds(
-          detectNames(textResultArray[i + 1],textResultArray[i + 2])
+          detectNames(textResultArray[i + 1], textResultArray[i + 2])
         );
         i++;
       }
@@ -758,10 +781,10 @@ function removeUnwantedStringAtEitherEnds(str) {
 function detectNames(word1, word2) {
   const words = [word1, word2];
   for (const word of words) {
-      const doc = nlp(word);
-      if (doc.people().out('array').length > 0) {
-          return word; // Return the first detected name
-      }
+    const doc = nlp(word);
+    if (doc.people().out("array").length > 0) {
+      return word; // Return the first detected name
+    }
   }
   return null; // Return null if no name is found
 }
