@@ -366,7 +366,6 @@ async function extractTextFromImageBuffer(base64) {
 async function getPassportDataFromRequestType(request) {
   try {
     const result = await client.textDetection(request);
-    console.log('🚀  result--->', result)
     const textResult = _.get(result, "[0].textAnnotations[0].description", "");
     console.log(`got the text result from google vision ocr`);
     let textResultArray = textResult.split("\n");

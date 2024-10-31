@@ -49,7 +49,7 @@ const DragAndDropUpload = () => {
 
     setLoading(true); // Set loading to true before fetching
     try {
-      const response = await axios.post("http://localhost:8080/base", {
+      const response = await axios.post("https://docuville.onrender.com/base", {
         image: base64String.split(",")[1], // Send the base64 string if needed
       });
       setResponseData(response.data.data);
