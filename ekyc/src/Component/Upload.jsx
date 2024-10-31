@@ -50,12 +50,12 @@ const DragAndDropUpload = () => {
     setLoading(true); // Set loading to true before fetching
     try {
       const response = await axios.post("https://docuville.onrender.com/base", {
-        image: base64String.split(",")[1], // Send the base64 string if needed
+        image: base64String.split(",")[1],
       });
-      if(response.data.status){
+      if (response.data.status) {
         setResponseData(response.data.data);
         message.success("Details fetched successfully!");
-      }else{
+      } else {
         message.error(response.data.message);
       }
       console.log(response.data);
@@ -99,7 +99,6 @@ const DragAndDropUpload = () => {
               <Image width={300} src={imagePreview} alt="Preview" />
               <Tooltip title="Remove image">
                 {" "}
-                {/* Add tooltip here */}
                 <CloseCircleOutlined
                   className="close-icon" // Apply class for close icon
                   onClick={removeImage}

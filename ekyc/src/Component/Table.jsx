@@ -7,7 +7,7 @@ const TableComponent = ({ data }) => {
         <thead>
           <tr>
             <th>Name</th>
-            <th>Link</th>
+            <th>Value</th>
           </tr>
         </thead>
         <tbody>

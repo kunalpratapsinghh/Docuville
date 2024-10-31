@@ -4,7 +4,7 @@ import FileUpload from './Component/Upload';
 function App() {
   return (
     <div >
-      <h1 className="app-heading">My Passport Application</h1> {/* Added heading */}
+      <h1 className="app-heading">My Passport Application</h1>
       <div className="App">
 
       <FileUpload />
