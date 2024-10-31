@@ -52,8 +52,12 @@ const DragAndDropUpload = () => {
       const response = await axios.post("https://docuville.onrender.com/base", {
         image: base64String.split(",")[1], // Send the base64 string if needed
       });
-      setResponseData(response.data.data);
-      message.success("Details fetched successfully!");
+      if(response.data.status){
+        setResponseData(response.data.data);
+        message.success("Details fetched successfully!");
+      }else{
+        message.error(response.data.message);
+      }
       console.log(response.data);
     } catch (error) {
       message.error("Failed to fetch details: " + error.message);
